@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Учет товаров - РЕСТОРАН _ЛОНДОН</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 10px;
+            padding-bottom: 80px;
+        }
+        
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .tabs {
+            display: flex;
+            overflow-x: auto;
+            gap: 5px;
+            margin-bottom: 15px;
+            padding: 5px;
+            background: white;
+            border-radius: 10px;
+        }
+        
+        .tab {
+            padding: 10px 15px;
+            background: #ecf0f1;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background: #3498db;
+            color: white;
+        }
+        
+        .products-container {
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        
+        .product-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .product-info {
+            flex: 1;
+        }
+        
+        .product-name {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .product-unit {
+            font-size: 11px;
+            color: #7f8c8d;
+            margin-left: 5px;
+        }
+        
+        .product-input {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .product-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-primary:active {
+            background: #229954;
+        }
+        
+        .btn-secondary {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-secondary:active {
+            background: #c0392b;
+        }
+        
+        .counter {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏪 РЕСТОРАН _ЛОНДОН</h1>
+        <p id="doc-type">Переучет товаров</p>
+    </div>
+    
+    <div class="counter" id="counter">Заполнено: 0 позиций</div>
+    
+    <div class="tabs" id="tabs"></div>
+    
+    <div class="products-container" id="products"></div>
+    
+    <div class="bottom-bar">
+        <button class="btn btn-secondary" onclick="clearAll()">🗑 Очистить</button>
+        <button class="btn btn-primary" onclick="submitData()">📤 Отправить</button>
+    </div>
+    
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        let categories = [];
+        let products = [];
+        let currentCategory = null;
+        let formData = {};
+        
+        // Определяем тип документа из URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const docType = urlParams.get('type') || 'pereuchet';
+        
+        if (docType === 'zayavka') {
+            document.getElementById('doc-type').textContent = 'Заявка на товары';
+        }
+        
+        // Загрузка данных
+        async function loadData() {
+            try {
+                // Здесь должны быть ваши данные
+                // Пока используем тестовые данные
+                categories = [
+                    {id: 1, name: 'ВИСКИ'},
+                    {id: 2, name: 'ВОДКА'},
+                    {id: 3, name: 'НАСТОЙКИ'},
+                    {id: 4, name: 'СОКИ'}
+                ];
+                
+                products = [
+                    {id: 1, category_id: 1, name: 'Джемесон', unit: 'л'},
+                    {id: 2, category_id: 1, name: 'Джек Дэниелс', unit: 'л'},
+                    {id: 3, category_id: 2, name: 'Финляндия', unit: 'л'},
+                    {id: 4, category_id: 2, name: 'Абсолют', unit: 'л'},
+                    {id: 5, category_id: 3, name: 'Клюква', unit: 'л'},
+                    {id: 6, category_id: 4, name: 'Апельсиновый', unit: 'л'},
+                    {id: 7, category_id: 4, name: 'Яблочный', unit: 'л'}
+                ];
+                
+                renderTabs();
+                renderProducts();
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                tg.showAlert('Ошибка загрузки данных');
+            }
+        }
+        
+        // Отрисовка вкладок категорий
+        function renderTabs() {
+            const tabsContainer = document.getElementById('tabs');
+            tabsContainer.innerHTML = '';
+            
+            categories.forEach((category, index) => {
+                const tab = document.createElement('div');
+                tab.className = 'tab' + (index === 0 ? ' active' : '');
+                tab.textContent = category.name;
+                tab.onclick = () => switchCategory(category.id, tab);
+                tabsContainer.appendChild(tab);
+                
+                if (index === 0) {
+                    currentCategory = category.id;
+                }
+            });
+        }
+        
+        // Переключение категории
+        function switchCategory(categoryId, tabElement) {
+            currentCategory = categoryId;
+            
+            // Обновляем активную вкладку
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            tabElement.classList.add('active');
+            
+            renderProducts();
+        }
+        
+        // Отрисовка товаров
+        function renderProducts() {
+            const productsContainer = document.getElementById('products');
+            productsContainer.innerHTML = '';
+            
+            const categoryProducts = products.filter(p => p.category_id === currentCategory);
+            
+            if (categoryProducts.length === 0) {
+                productsContainer.innerHTML = '<p style="text-align:center;color:#7f8c8d;">Нет товаров</p>';
+                return;
+            }
+            
+            categoryProducts.forEach(product => {
+                const row = document.createElement('div');
+                row.className = 'product-row';
+                
+                const savedValue = formData[product.id] || '';
+                
+                row.innerHTML = `
+                    <div class="product-info">
+                        <span class="product-name">${product.name}</span>
+                        <span class="product-unit">(${product.unit})</span>
+                    </div>
+                    <input type="number" 
+                           class="product-input" 
+                           placeholder="-" 
+                           min="0" 
+                           step="0.1"
+                           value="${savedValue}"
+                           data-id="${product.id}"
+                           data-name="${product.name}"
+                           data-unit="${product.unit}"
+                           oninput="updateData(this)">
+                `;
+                
+                productsContainer.appendChild(row);
+            });
+        }
+        
+        // Обновление данных
+        function updateData(input) {
+            const id = input.dataset.id;
+            const name = input.dataset.name;
+            const unit = input.dataset.unit;
+            const value = input.value;
+            
+            if (value === '') {
+                delete formData[id];
+            } else {
+                formData[id] = {
+                    id: id,
+                    name: name,
+                    unit: unit,
+                    quantity: parseFloat(value)
+                };
+            }
+            
+            updateCounter();
+        }
+        
+        // Обновление счетчика
+        function updateCounter() {
+            const count = Object.keys(formData).length;
+            document.getElementById('counter').textContent = `Заполнено: ${count} позиций`;
+        }
+        
+        // Очистка формы
+        function clearAll() {
+            tg.showConfirm('Очистить все данные?', (confirmed) => {
+                if (confirmed) {
+                    formData = {};
+                    renderProducts();
+                    updateCounter();
+                }
+            });
+        }
+        
+        // Отправка данных
+        function submitData() {
+            const data = {
+                action: 'submit_inventory',
+                type: docType,
+                data: formData
+            };
+            
+            tg.sendData(JSON.stringify(data));
+            tg.close();
+        }
+        
+        // Инициализация
+        loadData();
+    </script>
+</body>
+</html>
