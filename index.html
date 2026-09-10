@@ -11,14 +11,14 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f5f5f5;
             padding: 10px;
             padding-bottom: 80px;
         }
-        
+
         .header {
             background: #2c3e50;
             color: white;
@@ -27,17 +27,17 @@
             margin-bottom: 15px;
             text-align: center;
         }
-        
+
         .header h1 {
             font-size: 18px;
             margin-bottom: 5px;
         }
-        
+
         .header p {
             font-size: 12px;
             opacity: 0.8;
         }
-        
+
         .tabs {
             display: flex;
             overflow-x: auto;
@@ -47,7 +47,7 @@
             background: white;
             border-radius: 10px;
         }
-        
+
         .tab {
             padding: 10px 15px;
             background: #ecf0f1;
@@ -56,19 +56,21 @@
             white-space: nowrap;
             font-size: 14px;
             transition: all 0.3s;
+            border: none;
+            color: #2c3e50;
         }
-        
+
         .tab.active {
             background: #3498db;
             color: white;
         }
-        
+
         .products-container {
             background: white;
             border-radius: 10px;
             padding: 10px;
         }
-        
+
         .product-row {
             display: flex;
             justify-content: space-between;
@@ -76,22 +78,22 @@
             padding: 10px;
             border-bottom: 1px solid #ecf0f1;
         }
-        
+
         .product-info {
             flex: 1;
         }
-        
+
         .product-name {
             font-size: 14px;
             font-weight: 500;
         }
-        
+
         .product-unit {
             font-size: 11px;
             color: #7f8c8d;
             margin-left: 5px;
         }
-        
+
         .product-input {
             width: 80px;
             padding: 8px;
@@ -100,12 +102,12 @@
             font-size: 14px;
             text-align: center;
         }
-        
+
         .product-input:focus {
             outline: none;
             border-color: #3498db;
         }
-        
+
         .bottom-bar {
             position: fixed;
             bottom: 0;
@@ -117,7 +119,7 @@
             gap: 10px;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
         }
-        
+
         .btn {
             flex: 1;
             padding: 12px;
@@ -127,30 +129,171 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        
+
         .btn-primary {
             background: #27ae60;
             color: white;
         }
-        
+
         .btn-primary:active {
             background: #229954;
         }
-        
+
         .btn-secondary {
             background: #e74c3c;
             color: white;
         }
-        
+
         .btn-secondary:active {
             background: #c0392b;
         }
-        
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 5px;
+            background: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
         .counter {
             text-align: center;
             margin: 10px 0;
             font-size: 14px;
             color: #7f8c8d;
+        }
+
+        .mode-switch {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #3498db;
+            background: white;
+            color: #3498db;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .mode-btn.rashod {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        .mode-btn.rashod.active {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .item-card {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid #3498db;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-card.rashod {
+            border-left-color: #e74c3c;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .item-details {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .item-delete {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0 10px;
+        }
+
+        .add-form {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .add-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-bottom: 4px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .form-actions .btn {
+            padding: 10px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -159,124 +302,225 @@
         <h1>🏪 РЕСТОРАН _ЛОНДОН</h1>
         <p id="doc-type">Переучет товаров</p>
     </div>
-    
+
     <div class="counter" id="counter">Заполнено: 0 позиций</div>
-    
-    <div class="tabs" id="tabs"></div>
-    
-    <div class="products-container" id="products"></div>
-    
+
+    <!-- Блок переучета/заявки -->
+    <div id="inventory-block">
+        <div class="tabs" id="tabs"></div>
+        <div class="products-container" id="products"></div>
+    </div>
+
+    <!-- Блок поступления/списания -->
+    <div id="prihod-rashod-block" style="display: none;">
+        <div class="mode-switch">
+            <button class="mode-btn active" id="btn-prihod" onclick="switchMode('prihod')">📥 Поступление</button>
+            <button class="mode-btn rashod" id="btn-rashod" onclick="switchMode('rashod')">📤 Списание</button>
+        </div>
+
+        <div id="items-list"></div>
+
+        <button class="btn btn-primary" onclick="showAddForm()" style="width: 100%; margin-top: 10px;">➕ Добавить позицию</button>
+
+        <!-- Форма добавления -->
+        <div class="add-form" id="add-form">
+            <div class="form-group">
+                <label>Название продукта</label>
+                <input type="text" id="input-name" placeholder="Например: Джемесон">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Количество</label>
+                    <input type="number" id="input-quantity" placeholder="0" step="0.1" min="0">
+                </div>
+                <div class="form-group">
+                    <label>Ед. изм.</label>
+                    <select id="input-unit">
+                        <option value="л">л</option>
+                        <option value="кг">кг</option>
+                        <option value="шт">шт</option>
+                        <option value="мл">мл</option>
+                        <option value="г">г</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Причина</label>
+                <input type="text" id="input-reason" placeholder="закупка, поставка, порча, брак...">
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" onclick="hideAddForm()">Отмена</button>
+                <button class="btn btn-primary" onclick="confirmAdd()">Добавить</button>
+            </div>
+        </div>
+    </div>
+
     <div class="bottom-bar">
         <button class="btn btn-secondary" onclick="clearAll()">🗑 Очистить</button>
         <button class="btn btn-primary" onclick="submitData()">📤 Отправить</button>
     </div>
-    
+
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
-        
+
         let categories = [];
         let products = [];
         let currentCategory = null;
         let formData = {};
-        
-        // Определяем тип документа из URL
+
+        // Для поступления/списания
+        let prihodList = [];
+        let rashodList = [];
+        let currentMode = 'prihod';
+
+        // Определяем тип документа
         const urlParams = new URLSearchParams(window.location.search);
         const docType = urlParams.get('type') || 'pereuchet';
-        
+
+        // Настраиваем заголовок
         if (docType === 'zayavka') {
             document.getElementById('doc-type').textContent = 'Заявка на товары';
+        } else if (docType === 'prihod_rashod') {
+            document.getElementById('doc-type').textContent = 'Поступление / Списание';
+            document.getElementById('inventory-block').style.display = 'none';
+            document.getElementById('prihod-rashod-block').style.display = 'block';
         }
-        
-        // Загрузка данных
-async function loadData() {
+
+        // ==================== ЗАГРУЗКА ДАННЫХ ====================
+// Загрузка документа для редактирования
+async function loadEditData() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const editId = urlParams.get('edit');
+    
+    if (!editId) return false;
+    
     try {
         const API_URL = 'https://executive-does-ongoing-brown.trycloudflare.com';
+        const response = await fetch(`${API_URL}/api/request/${editId}`);
         
-        const response = await fetch(`${API_URL}/api/categories-with-products`);
-        const data = await response.json();
-        
-        if (data.length === 0) {
-            tg.showAlert('Нет товаров в базе');
-            return;
+        if (!response.ok) {
+            tg.showAlert('Документ не найден');
+            return false;
         }
         
-        categories = [];
-        products = [];
+        const doc = await response.json();
         
-        data.forEach(cat => {
-            categories.push({
-                id: cat.id,
-                name: cat.name
-            });
-            
-            cat.products.forEach(prod => {
-                products.push({
-                    id: prod.id,
-                    category_id: cat.id,
-                    name: prod.name,
-                    unit: prod.unit
-                });
-            });
-        });
+        // Показываем, что редактируем
+        document.getElementById('doc-type').textContent = 
+            '✏️ Редактирование: ' + document.getElementById('doc-type').textContent;
         
-        renderTabs();
-        renderProducts();
+        // Заполняем данные в зависимости от типа
+        if (doc.type === 'prihod_rashod') {
+            prihodList = doc.data.prihod || [];
+            rashodList = doc.data.rashod || [];
+            renderItems();
+        } else {
+            formData = doc.data || {};
+            renderProducts();
+        }
+        
+        updateCounter();
+        return true;
     } catch (error) {
         console.error('Ошибка загрузки:', error);
-        tg.showAlert('Ошибка загрузки: ' + error.message);
+        tg.showAlert('Ошибка загрузки документа: ' + error.message);
+        return false;
     }
 }
-        
-        // Отрисовка вкладок категорий
+        async function loadData() {
+            if (docType === 'prihod_rashod') {
+                // Для поступления/списания товары не нужны
+                renderItems();
+                updateCounter();
+                return;
+            }
+
+            try {
+                const API_URL = 'https://executive-does-ongoing-brown.trycloudflare.com';
+
+                const response = await fetch(`${API_URL}/api/categories-with-products`);
+                const data = await response.json();
+
+                if (data.length === 0) {
+                    tg.showAlert('Нет товаров в базе. Добавьте их через бота.');
+                    return;
+                }
+
+                categories = [];
+                products = [];
+
+                data.forEach(cat => {
+                    categories.push({
+                        id: cat.id,
+                        name: cat.name
+                    });
+
+                    cat.products.forEach(prod => {
+                        products.push({
+                            id: prod.id,
+                            category_id: cat.id,
+                            name: prod.name,
+                            unit: prod.unit
+                        });
+                    });
+                });
+
+                renderTabs();
+                renderProducts();
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                tg.showAlert('Ошибка загрузки данных: ' + error.message);
+            }
+        }
+
+        // ==================== ПЕРЕУЧЕТ / ЗАЯВКА ====================
+
         function renderTabs() {
             const tabsContainer = document.getElementById('tabs');
             tabsContainer.innerHTML = '';
-            
+
             categories.forEach((category, index) => {
-                const tab = document.createElement('div');
+                const tab = document.createElement('button');
                 tab.className = 'tab' + (index === 0 ? ' active' : '');
                 tab.textContent = category.name;
                 tab.onclick = () => switchCategory(category.id, tab);
                 tabsContainer.appendChild(tab);
-                
+
                 if (index === 0) {
                     currentCategory = category.id;
                 }
             });
         }
-        
-        // Переключение категории
+
         function switchCategory(categoryId, tabElement) {
             currentCategory = categoryId;
-            
-            // Обновляем активную вкладку
+
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             tabElement.classList.add('active');
-            
+
             renderProducts();
         }
-        
-        // Отрисовка товаров
+
         function renderProducts() {
             const productsContainer = document.getElementById('products');
             productsContainer.innerHTML = '';
-            
+
             const categoryProducts = products.filter(p => p.category_id === currentCategory);
-            
+
             if (categoryProducts.length === 0) {
-                productsContainer.innerHTML = '<p style="text-align:center;color:#7f8c8d;">Нет товаров</p>';
+                productsContainer.innerHTML = '<p style="text-align:center;color:#7f8c8d;padding:20px;">Нет товаров</p>';
                 return;
             }
-            
+
             categoryProducts.forEach(product => {
                 const row = document.createElement('div');
                 row.className = 'product-row';
-                
-                const savedValue = formData[product.id] || '';
-                
+
+                const savedValue = formData[product.id] ? formData[product.id].quantity : '';
+
                 row.innerHTML = `
                     <div class="product-info">
                         <span class="product-name">${product.name}</span>
@@ -293,18 +537,17 @@ async function loadData() {
                            data-unit="${product.unit}"
                            oninput="updateData(this)">
                 `;
-                
+
                 productsContainer.appendChild(row);
             });
         }
-        
-        // Обновление данных
+
         function updateData(input) {
             const id = input.dataset.id;
             const name = input.dataset.name;
             const unit = input.dataset.unit;
             const value = input.value;
-            
+
             if (value === '') {
                 delete formData[id];
             } else {
@@ -315,41 +558,192 @@ async function loadData() {
                     quantity: parseFloat(value)
                 };
             }
-            
+
             updateCounter();
         }
-        
-        // Обновление счетчика
+
+        // ==================== ПОСТУПЛЕНИЕ / СПИСАНИЕ ====================
+
+        function switchMode(mode) {
+            currentMode = mode;
+
+            if (mode === 'prihod') {
+                document.getElementById('btn-prihod').classList.add('active');
+                document.getElementById('btn-rashod').classList.remove('active');
+            } else {
+                document.getElementById('btn-rashod').classList.add('active');
+                document.getElementById('btn-prihod').classList.remove('active');
+            }
+
+            renderItems();
+            updateCounter();
+        }
+
+        function showAddForm() {
+            document.getElementById('add-form').classList.add('active');
+            document.getElementById('input-name').focus();
+        }
+
+        function hideAddForm() {
+            document.getElementById('add-form').classList.remove('active');
+            document.getElementById('input-name').value = '';
+            document.getElementById('input-quantity').value = '';
+            document.getElementById('input-reason').value = '';
+            document.getElementById('input-unit').value = 'л';
+        }
+
+        function confirmAdd() {
+            const name = document.getElementById('input-name').value.trim();
+            const quantity = parseFloat(document.getElementById('input-quantity').value);
+            const unit = document.getElementById('input-unit').value;
+            const reason = document.getElementById('input-reason').value.trim();
+
+            if (!name) {
+                tg.showAlert('Введите название продукта');
+                return;
+            }
+
+            if (isNaN(quantity) || quantity <= 0) {
+                tg.showAlert('Введите корректное количество');
+                return;
+            }
+
+            const item = { name, quantity, unit, reason };
+
+            if (currentMode === 'prihod') {
+                prihodList.push(item);
+            } else {
+                rashodList.push(item);
+            }
+
+            hideAddForm();
+            renderItems();
+            updateCounter();
+        }
+
+        function renderItems() {
+            const container = document.getElementById('items-list');
+            container.innerHTML = '';
+
+            const items = currentMode === 'prihod' ? prihodList : rashodList;
+            const listType = currentMode === 'prihod' ? 'prihod' : 'rashod';
+
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:40px 20px; color:#7f8c8d;">
+                        <p>Пока нет позиций</p>
+                        <p style="font-size:12px; margin-top:5px;">Нажмите «Добавить позицию»</p>
+                    </div>
+                `;
+                return;
+            }
+
+            items.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'item-card' + (listType === 'rashod' ? ' rashod' : '');
+
+                card.innerHTML = `
+                    <div class="item-info">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-details">
+                            ${item.quantity} ${item.unit}
+                            ${item.reason ? ` • ${item.reason}` : ''}
+                        </div>
+                    </div>
+                    <button class="item-delete" onclick="removeItem(${index})">✖</button>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function removeItem(index) {
+            if (currentMode === 'prihod') {
+                prihodList.splice(index, 1);
+            } else {
+                rashodList.splice(index, 1);
+            }
+            renderItems();
+            updateCounter();
+        }
+
+        // ==================== ОБЩИЕ ФУНКЦИИ ====================
+
         function updateCounter() {
-            const count = Object.keys(formData).length;
+            let count = 0;
+
+            if (docType === 'prihod_rashod') {
+                count = prihodList.length + rashodList.length;
+            } else {
+                count = Object.keys(formData).length;
+            }
+
             document.getElementById('counter').textContent = `Заполнено: ${count} позиций`;
         }
-        
-        // Очистка формы
+
         function clearAll() {
             tg.showConfirm('Очистить все данные?', (confirmed) => {
                 if (confirmed) {
-                    formData = {};
-                    renderProducts();
+                    if (docType === 'prihod_rashod') {
+                        prihodList = [];
+                        rashodList = [];
+                        renderItems();
+                    } else {
+                        formData = {};
+                        renderProducts();
+                    }
                     updateCounter();
                 }
             });
         }
-        
-        // Отправка данных
-        function submitData() {
-            const data = {
-                action: 'submit_inventory',
-                type: docType,
-                data: formData
-            };
-            
-            tg.sendData(JSON.stringify(data));
-            tg.close();
+
+function submitData() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const editId = urlParams.get('edit');
+    
+    let data;
+
+    if (docType === 'prihod_rashod') {
+        if (prihodList.length === 0 && rashodList.length === 0) {
+            tg.showAlert('Добавьте хотя бы одну позицию');
+            return;
         }
-        
-        // Инициализация
+
+        data = {
+            action: 'submit_inventory',
+            type: 'prihod_rashod',
+            edit_id: editId ? parseInt(editId) : null,
+            data: {
+                prihod: prihodList,
+                rashod: rashodList
+            }
+        };
+    } else {
+        if (Object.keys(formData).length === 0) {
+            tg.showAlert('Заполните хотя бы одну позицию');
+            return;
+        }
+
+        data = {
+            action: 'submit_inventory',
+            type: docType,
+            edit_id: editId ? parseInt(editId) : null,
+            data: formData
+        };
+    }
+
+    tg.sendData(JSON.stringify(data));
+    tg.close();
+}
+
+        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+
+        (async () => {
+    const isEditing = await loadEditData();
+    if (!isEditing) {
         loadData();
+    }
+})();
     </script>
 </body>
 </html>
