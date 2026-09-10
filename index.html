@@ -390,7 +390,7 @@
                 const response = await fetch(`${API_URL}/api/request/${editId}`);
                 
                 if (!response.ok) {
-                    tg.showAlert('Документ не найден');
+                    alert('Документ не найден');
                     return false;
                 }
                 
@@ -412,7 +412,7 @@
                 return true;
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
-                tg.showAlert('Ошибка загрузки документа: ' + error.message);
+                alert('Ошибка загрузки документа: ' + error.message);
                 return false;
             }
         }
@@ -431,7 +431,7 @@
                 const data = await response.json();
 
                 if (data.length === 0) {
-                    tg.showAlert('Нет товаров в базе. Добавьте их через бота.');
+                    alert('Нет товаров в базе. Добавьте их через бота.');
                     return;
                 }
 
@@ -458,7 +458,7 @@
                 renderProducts();
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
-                tg.showAlert('Ошибка загрузки данных: ' + error.message);
+                alert('Ошибка загрузки данных: ' + error.message);
             }
         }
 
@@ -587,12 +587,12 @@
             const reason = document.getElementById('input-reason').value.trim();
 
             if (!name) {
-                tg.showAlert('Введите название продукта');
+                alert('Введите название продукта');
                 return;
             }
 
             if (isNaN(quantity) || quantity <= 0) {
-                tg.showAlert('Введите корректное количество');
+                alert('Введите корректное количество');
                 return;
             }
 
@@ -670,19 +670,17 @@
         }
 
         function clearAll() {
-            tg.showConfirm('Очистить все данные?', (confirmed) => {
-                if (confirmed) {
-                    if (docType === 'prihod_rashod') {
-                        prihodList = [];
-                        rashodList = [];
-                        renderItems();
-                    } else {
-                        formData = {};
-                        renderProducts();
-                    }
-                    updateCounter();
+            if (confirm('Очистить все данные?')) {
+                if (docType === 'prihod_rashod') {
+                    prihodList = [];
+                    rashodList = [];
+                    renderItems();
+                } else {
+                    formData = {};
+                    renderProducts();
                 }
-            });
+                updateCounter();
+            }
         }
 
         function submitData() {
@@ -693,7 +691,7 @@
 
             if (docType === 'prihod_rashod') {
                 if (prihodList.length === 0 && rashodList.length === 0) {
-                    tg.showAlert('Добавьте хотя бы одну позицию');
+                    alert('Добавьте хотя бы одну позицию');
                     return;
                 }
 
@@ -708,7 +706,7 @@
                 };
             } else {
                 if (Object.keys(formData).length === 0) {
-                    tg.showAlert('Заполните хотя бы одну позицию');
+                    alert('Заполните хотя бы одну позицию');
                     return;
                 }
 
@@ -720,13 +718,11 @@
                 };
             }
 
-            // Показываем alert для отладки
-            tg.showAlert('Отправляю: ' + JSON.stringify(data).substring(0, 200));
-
             try {
                 tg.sendData(JSON.stringify(data));
             } catch (e) {
-                tg.showAlert('Ошибка: ' + e.message);
+                console.error('Ошибка отправки:', e);
+                alert('Ошибка: ' + e.message);
             }
             
             tg.close();
