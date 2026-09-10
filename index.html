@@ -191,7 +191,7 @@
         // Загрузка данных
 async function loadData() {
     try {
-        const API_URL = 'https://binary-however-pulled-lone.trycloudflare.com';
+        const API_URL = 'http://138.124.124.25:5000';
         
         const response = await fetch(`${API_URL}/api/categories-with-products`);
         const data = await response.json();
