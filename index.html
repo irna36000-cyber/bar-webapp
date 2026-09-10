@@ -6,285 +6,49 @@
     <title>Учет товаров - РЕСТОРАН _ЛОНДОН</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f5f5;
-            padding: 10px;
-            padding-bottom: 80px;
-        }
-
-        .header {
-            background: #2c3e50;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-
-        .header p {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-
-        .tabs {
-            display: flex;
-            overflow-x: auto;
-            gap: 5px;
-            margin-bottom: 15px;
-            padding: 5px;
-            background: white;
-            border-radius: 10px;
-        }
-
-        .tab {
-            padding: 10px 15px;
-            background: #ecf0f1;
-            border-radius: 20px;
-            cursor: pointer;
-            white-space: nowrap;
-            font-size: 14px;
-            transition: all 0.3s;
-            border: none;
-            color: #2c3e50;
-        }
-
-        .tab.active {
-            background: #3498db;
-            color: white;
-        }
-
-        .products-container {
-            background: white;
-            border-radius: 10px;
-            padding: 10px;
-        }
-
-        .product-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #ecf0f1;
-        }
-
-        .product-info {
-            flex: 1;
-        }
-
-        .product-name {
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .product-unit {
-            font-size: 11px;
-            color: #7f8c8d;
-            margin-left: 5px;
-        }
-
-        .product-input {
-            width: 80px;
-            padding: 8px;
-            border: 1px solid #bdc3c7;
-            border-radius: 5px;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .product-input:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        .bottom-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            padding: 10px;
-            display: flex;
-            gap: 10px;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-        }
-
-        .btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: #27ae60;
-            color: white;
-        }
-
-        .btn-primary:active {
-            background: #229954;
-        }
-
-        .btn-secondary {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .btn-secondary:active {
-            background: #c0392b;
-        }
-
-        .counter {
-            text-align: center;
-            margin: 10px 0;
-            font-size: 14px;
-            color: #7f8c8d;
-        }
-
-        .mode-switch {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .mode-btn {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #3498db;
-            background: white;
-            color: #3498db;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .mode-btn.active {
-            background: #3498db;
-            color: white;
-        }
-
-        .mode-btn.rashod {
-            border-color: #e74c3c;
-            color: #e74c3c;
-        }
-
-        .mode-btn.rashod.active {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .item-card {
-            background: white;
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-left: 4px solid #3498db;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .item-card.rashod {
-            border-left-color: #e74c3c;
-        }
-
-        .item-info {
-            flex: 1;
-        }
-
-        .item-name {
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-
-        .item-details {
-            font-size: 12px;
-            color: #7f8c8d;
-        }
-
-        .item-delete {
-            background: none;
-            border: none;
-            color: #e74c3c;
-            font-size: 20px;
-            cursor: pointer;
-            padding: 0 10px;
-        }
-
-        .add-form {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            display: none;
-        }
-
-        .add-form.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 10px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            color: #7f8c8d;
-            margin-bottom: 4px;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #bdc3c7;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 10px;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .form-actions .btn {
-            padding: 10px;
-            font-size: 14px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 10px; padding-bottom: 80px; }
+        .header { background: #2c3e50; color: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: center; }
+        .header h1 { font-size: 18px; margin-bottom: 5px; }
+        .header p { font-size: 12px; opacity: 0.8; }
+        .tabs { display: flex; overflow-x: auto; gap: 5px; margin-bottom: 15px; padding: 5px; background: white; border-radius: 10px; }
+        .tab { padding: 10px 15px; background: #ecf0f1; border-radius: 20px; cursor: pointer; white-space: nowrap; font-size: 14px; transition: all 0.3s; border: none; color: #2c3e50; }
+        .tab.active { background: #3498db; color: white; }
+        .products-container { background: white; border-radius: 10px; padding: 10px; }
+        .product-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ecf0f1; }
+        .product-info { flex: 1; }
+        .product-name { font-size: 14px; font-weight: 500; }
+        .product-unit { font-size: 11px; color: #7f8c8d; margin-left: 5px; }
+        .product-input { width: 80px; padding: 8px; border: 1px solid #bdc3c7; border-radius: 5px; font-size: 14px; text-align: center; }
+        .product-input:focus { outline: none; border-color: #3498db; }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px; display: flex; gap: 10px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
+        .btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: all 0.3s; }
+        .btn-primary { background: #27ae60; color: white; }
+        .btn-primary:active { background: #229954; }
+        .btn-secondary { background: #e74c3c; color: white; }
+        .btn-secondary:active { background: #c0392b; }
+        .counter { text-align: center; margin: 10px 0; font-size: 14px; color: #7f8c8d; }
+        .mode-switch { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { flex: 1; padding: 12px; border: 2px solid #3498db; background: white; color: #3498db; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .mode-btn.active { background: #3498db; color: white; }
+        .mode-btn.rashod { border-color: #e74c3c; color: #e74c3c; }
+        .mode-btn.rashod.active { background: #e74c3c; color: white; }
+        .item-card { background: white; border-radius: 8px; padding: 12px; margin-bottom: 10px; border-left: 4px solid #3498db; display: flex; justify-content: space-between; align-items: center; }
+        .item-card.rashod { border-left-color: #e74c3c; }
+        .item-info { flex: 1; }
+        .item-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+        .item-details { font-size: 12px; color: #7f8c8d; }
+        .item-delete { background: none; border: none; color: #e74c3c; font-size: 20px; cursor: pointer; padding: 0 10px; }
+        .add-form { background: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; display: none; }
+        .add-form.active { display: block; }
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 12px; color: #7f8c8d; margin-bottom: 4px; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #bdc3c7; border-radius: 5px; font-size: 14px; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #3498db; }
+        .form-row { display: flex; gap: 10px; }
+        .form-row .form-group { flex: 1; }
+        .form-actions { display: flex; gap: 10px; margin-top: 10px; }
+        .form-actions .btn { padding: 10px; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -295,24 +59,18 @@
 
     <div class="counter" id="counter">Заполнено: 0 позиций</div>
 
-    <!-- Блок переучета/заявки -->
     <div id="inventory-block">
         <div class="tabs" id="tabs"></div>
         <div class="products-container" id="products"></div>
     </div>
 
-    <!-- Блок поступления/списания -->
     <div id="prihod-rashod-block" style="display: none;">
         <div class="mode-switch">
             <button class="mode-btn active" id="btn-prihod" onclick="switchMode('prihod')">📥 Поступление</button>
             <button class="mode-btn rashod" id="btn-rashod" onclick="switchMode('rashod')">📤 Списание</button>
         </div>
-
         <div id="items-list"></div>
-
         <button class="btn btn-primary" onclick="showAddForm()" style="width: 100%; margin-top: 10px;">➕ Добавить позицию</button>
-
-        <!-- Форма добавления -->
         <div class="add-form" id="add-form">
             <div class="form-group">
                 <label>Название продукта</label>
@@ -359,14 +117,13 @@
         let currentCategory = null;
         let formData = {};
 
-        // Для поступления/списания
         let prihodList = [];
         let rashodList = [];
         let currentMode = 'prihod';
 
-        // Определяем тип документа
         const urlParams = new URLSearchParams(window.location.search);
         const docType = urlParams.get('type') || 'pereuchet';
+        const editId = urlParams.get('edit');
 
         // Настраиваем заголовок
         if (docType === 'zayavka') {
@@ -377,37 +134,38 @@
             document.getElementById('prihod-rashod-block').style.display = 'block';
         }
 
-        // ==================== ЗАГРУЗКА ДАННЫХ ====================
+        // ==================== ЗАГРУЗКА ДЛЯ РЕДАКТИРОВАНИЯ ====================
 
         async function loadEditData() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const editId = urlParams.get('edit');
-            
             if (!editId) return false;
-            
+
             try {
                 const API_URL = 'https://executive-does-ongoing-brown.trycloudflare.com';
                 const response = await fetch(`${API_URL}/api/request/${editId}`);
-                
+
                 if (!response.ok) {
                     alert('Документ не найден');
                     return false;
                 }
-                
+
                 const doc = await response.json();
-                
+
+                // Меняем заголовок
                 document.getElementById('doc-type').textContent = 
                     '✏️ Редактирование: ' + document.getElementById('doc-type').textContent;
-                
+
+                // Заполняем данные
                 if (doc.type === 'prihod_rashod') {
                     prihodList = doc.data.prihod || [];
                     rashodList = doc.data.rashod || [];
                     renderItems();
                 } else {
                     formData = doc.data || {};
+                    // Загружаем категории и товары, потом отрисуем
+                    await loadData();
                     renderProducts();
                 }
-                
+
                 updateCounter();
                 return true;
             } catch (error) {
@@ -416,6 +174,8 @@
                 return false;
             }
         }
+
+        // ==================== ЗАГРУЗКА ТОВАРОВ ====================
 
         async function loadData() {
             if (docType === 'prihod_rashod') {
@@ -462,7 +222,7 @@
             }
         }
 
-        // ==================== ПЕРЕУЧЕТ / ЗАЯВКА ====================
+        // ==================== ОТРИСОВКА ====================
 
         function renderTabs() {
             const tabsContainer = document.getElementById('tabs');
@@ -483,12 +243,8 @@
 
         function switchCategory(categoryId, tabElement) {
             currentCategory = categoryId;
-
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             tabElement.classList.add('active');
-
             renderProducts();
         }
 
@@ -554,7 +310,6 @@
 
         function switchMode(mode) {
             currentMode = mode;
-
             if (mode === 'prihod') {
                 document.getElementById('btn-prihod').classList.add('active');
                 document.getElementById('btn-rashod').classList.remove('active');
@@ -562,7 +317,6 @@
                 document.getElementById('btn-rashod').classList.add('active');
                 document.getElementById('btn-prihod').classList.remove('active');
             }
-
             renderItems();
             updateCounter();
         }
@@ -586,15 +340,8 @@
             const unit = document.getElementById('input-unit').value;
             const reason = document.getElementById('input-reason').value.trim();
 
-            if (!name) {
-                alert('Введите название продукта');
-                return;
-            }
-
-            if (isNaN(quantity) || quantity <= 0) {
-                alert('Введите корректное количество');
-                return;
-            }
+            if (!name) { alert('Введите название продукта'); return; }
+            if (isNaN(quantity) || quantity <= 0) { alert('Введите корректное количество'); return; }
 
             const item = { name, quantity, unit, reason };
 
@@ -659,13 +406,11 @@
 
         function updateCounter() {
             let count = 0;
-
             if (docType === 'prihod_rashod') {
                 count = prihodList.length + rashodList.length;
             } else {
                 count = Object.keys(formData).length;
             }
-
             document.getElementById('counter').textContent = `Заполнено: ${count} позиций`;
         }
 
@@ -684,9 +429,6 @@
         }
 
         function submitData() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const editId = urlParams.get('edit');
-            
             let data;
 
             if (docType === 'prihod_rashod') {
@@ -724,16 +466,19 @@
                 console.error('Ошибка отправки:', e);
                 alert('Ошибка: ' + e.message);
             }
-            
+
             tg.close();
         }
 
         // ==================== ИНИЦИАЛИЗАЦИЯ ====================
 
         (async () => {
-            const isEditing = await loadEditData();
-            if (!isEditing) {
-                loadData();
+            if (editId) {
+                // Режим редактирования
+                await loadEditData();
+            } else {
+                // Обычный режим
+                await loadData();
             }
         })();
     </script>
