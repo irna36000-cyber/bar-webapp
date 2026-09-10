@@ -148,16 +148,6 @@
             background: #c0392b;
         }
 
-        .btn-small {
-            padding: 6px 12px;
-            font-size: 12px;
-            border-radius: 5px;
-            background: #3498db;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
         .counter {
             text-align: center;
             margin: 10px 0;
@@ -388,49 +378,47 @@
         }
 
         // ==================== ЗАГРУЗКА ДАННЫХ ====================
-// Загрузка документа для редактирования
-async function loadEditData() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const editId = urlParams.get('edit');
-    
-    if (!editId) return false;
-    
-    try {
-        const API_URL = 'https://executive-does-ongoing-brown.trycloudflare.com';
-        const response = await fetch(`${API_URL}/api/request/${editId}`);
-        
-        if (!response.ok) {
-            tg.showAlert('Документ не найден');
-            return false;
+
+        async function loadEditData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const editId = urlParams.get('edit');
+            
+            if (!editId) return false;
+            
+            try {
+                const API_URL = 'https://executive-does-ongoing-brown.trycloudflare.com';
+                const response = await fetch(`${API_URL}/api/request/${editId}`);
+                
+                if (!response.ok) {
+                    tg.showAlert('Документ не найден');
+                    return false;
+                }
+                
+                const doc = await response.json();
+                
+                document.getElementById('doc-type').textContent = 
+                    '✏️ Редактирование: ' + document.getElementById('doc-type').textContent;
+                
+                if (doc.type === 'prihod_rashod') {
+                    prihodList = doc.data.prihod || [];
+                    rashodList = doc.data.rashod || [];
+                    renderItems();
+                } else {
+                    formData = doc.data || {};
+                    renderProducts();
+                }
+                
+                updateCounter();
+                return true;
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                tg.showAlert('Ошибка загрузки документа: ' + error.message);
+                return false;
+            }
         }
-        
-        const doc = await response.json();
-        
-        // Показываем, что редактируем
-        document.getElementById('doc-type').textContent = 
-            '✏️ Редактирование: ' + document.getElementById('doc-type').textContent;
-        
-        // Заполняем данные в зависимости от типа
-        if (doc.type === 'prihod_rashod') {
-            prihodList = doc.data.prihod || [];
-            rashodList = doc.data.rashod || [];
-            renderItems();
-        } else {
-            formData = doc.data || {};
-            renderProducts();
-        }
-        
-        updateCounter();
-        return true;
-    } catch (error) {
-        console.error('Ошибка загрузки:', error);
-        tg.showAlert('Ошибка загрузки документа: ' + error.message);
-        return false;
-    }
-}
+
         async function loadData() {
             if (docType === 'prihod_rashod') {
-                // Для поступления/списания товары не нужны
                 renderItems();
                 updateCounter();
                 return;
@@ -697,63 +685,61 @@ async function loadEditData() {
             });
         }
 
-function submitData() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const editId = urlParams.get('edit');
-    
-    let data;
+        function submitData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const editId = urlParams.get('edit');
+            
+            let data;
 
-    if (docType === 'prihod_rashod') {
-        if (prihodList.length === 0 && rashodList.length === 0) {
-            tg.showAlert('Добавьте хотя бы одну позицию');
-            return;
-        }
+            if (docType === 'prihod_rashod') {
+                if (prihodList.length === 0 && rashodList.length === 0) {
+                    tg.showAlert('Добавьте хотя бы одну позицию');
+                    return;
+                }
 
-        data = {
-            action: 'submit_inventory',
-            type: 'prihod_rashod',
-            edit_id: editId ? parseInt(editId) : null,
-            data: {
-                prihod: prihodList,
-                rashod: rashodList
+                data = {
+                    action: 'submit_inventory',
+                    type: 'prihod_rashod',
+                    edit_id: editId ? parseInt(editId) : null,
+                    data: {
+                        prihod: prihodList,
+                        rashod: rashodList
+                    }
+                };
+            } else {
+                if (Object.keys(formData).length === 0) {
+                    tg.showAlert('Заполните хотя бы одну позицию');
+                    return;
+                }
+
+                data = {
+                    action: 'submit_inventory',
+                    type: docType,
+                    edit_id: editId ? parseInt(editId) : null,
+                    data: formData
+                };
             }
-        };
-    } else {
-        if (Object.keys(formData).length === 0) {
-            tg.showAlert('Заполните хотя бы одну позицию');
-            return;
+
+            // Показываем alert для отладки
+            tg.showAlert('Отправляю: ' + JSON.stringify(data).substring(0, 200));
+
+            try {
+                tg.sendData(JSON.stringify(data));
+            } catch (e) {
+                tg.showAlert('Ошибка: ' + e.message);
+            }
+            
+            tg.close();
         }
-
-        data = {
-            action: 'submit_inventory',
-            type: docType,
-            edit_id: editId ? parseInt(editId) : null,
-            data: formData
-        };
-    }
-
-    console.log('📤 Отправляю данные:', data);
-    console.log('📤 JSON:', JSON.stringify(data));
-    
-    try {
-        tg.sendData(JSON.stringify(data));
-        console.log('✅ Данные отправлены');
-    } catch (e) {
-        console.error('❌ Ошибка отправки:', e);
-        tg.showAlert('Ошибка: ' + e.message);
-    }
-    
-    tg.close();
-}
 
         // ==================== ИНИЦИАЛИЗАЦИЯ ====================
 
         (async () => {
-    const isEditing = await loadEditData();
-    if (!isEditing) {
-        loadData();
-    }
-})();
+            const isEditing = await loadEditData();
+            if (!isEditing) {
+                loadData();
+            }
+        })();
     </script>
 </body>
 </html>
