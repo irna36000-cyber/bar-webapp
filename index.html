@@ -732,7 +732,17 @@ function submitData() {
         };
     }
 
-    tg.sendData(JSON.stringify(data));
+    console.log('📤 Отправляю данные:', data);
+    console.log('📤 JSON:', JSON.stringify(data));
+    
+    try {
+        tg.sendData(JSON.stringify(data));
+        console.log('✅ Данные отправлены');
+    } catch (e) {
+        console.error('❌ Ошибка отправки:', e);
+        tg.showAlert('Ошибка: ' + e.message);
+    }
+    
     tg.close();
 }
 
